@@ -34,11 +34,11 @@ class VectorDBService:
         """
         # 1. Clear old data if requested
         if force_refresh and os.path.exists(self.persist_directory):
-            print(f"🗑️  Clearing existing database at {self.persist_directory}...")
+            print(f"Clearing existing database at {self.persist_directory}...")
             shutil.rmtree(self.persist_directory)
             os.makedirs(self.persist_directory) # Recreate empty folder
 
-        print(f"💾 Creating Vector Database with {len(documents)} chunks...")
+        print(f"Creating Vector Database with {len(documents)} chunks...")
         
         try:
             # 2. Create and Persist
@@ -47,24 +47,24 @@ class VectorDBService:
                 embedding=self.embedding_model,  # Use the model we loaded
                 persist_directory=self.persist_directory
             )
-            print(f"   ✅ Success! Database saved to {self.persist_directory}")
+            print(f"  Success! Database saved to {self.persist_directory}")
             return self.vectorstore
             
         except Exception as e:
-            print(f"   ❌ Error creating vector store: {e}")
+            print(f"   Error creating vector store: {e}")
             raise e
 
     def load_vectorstore(self) -> Optional[Chroma]:
         """Load existing vector store."""
-        print(f"📂 Loading Vector Store from {self.persist_directory}...")
+        print(f"Loading Vector Store from {self.persist_directory}...")
         try:
             self.vectorstore = Chroma(
                 persist_directory=self.persist_directory,
-                embedding_function=self.embedding_model # Critical: Must match creation model
+                embedding_function=self.embedding_model 
             )
             return self.vectorstore
         except Exception as e:
-            print(f"   ❌ Error loading vector store: {e}")
+            print(f"  Error loading vector store: {e}")
             return None
     
     def get_retriever(self, k: int = 3):
@@ -90,6 +90,6 @@ class VectorDBService:
             # If DB doesn't exist yet, create it
             self.create_vectorstore(documents)
         else:
-            print(f"➕ Adding {len(documents)} new chunks to Vector Store...")
+            print(f"Adding {len(documents)} new chunks to Vector Store...")
             self.vectorstore.add_documents(documents)
-            print("   ✅ Added successfully.")
+            print(" Added successfully.")
