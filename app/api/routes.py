@@ -28,9 +28,9 @@ text_chunker = TextChunker()
 # Try to load existing vector store
 try:
     vector_db.load_vectorstore()
-    print("✅ Existing vector store loaded")
+    print("Existing vector store loaded")
 except:
-    print("⚠️ No existing vector store found")
+    print("No existing vector store found")
 
 
 @router.get("/health")
@@ -76,7 +76,7 @@ async def upload_document(file: UploadFile = File(...)):
         with file_path.open("wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
         
-        print(f"📄 Saved: {file.filename}")
+        print(f"Saved: {file.filename}")
         
         # Load and process
         documents = document_loader.load_pdf(str(file_path))
@@ -89,11 +89,11 @@ async def upload_document(file: UploadFile = File(...)):
         
         # Split into chunks
         chunks = text_chunker.split_documents(documents)
-        print(f"✂️ Created {len(chunks)} chunks")
+        print(f"Created {len(chunks)} chunks")
         
         # Add to vector store
         vector_db.add_documents(chunks)
-        print(f"✅ Added to vector store")
+        print(f"Added to vector store")
         
         return UploadResponse(
             message="Document uploaded and processed successfully",
@@ -115,7 +115,7 @@ async def initialize_system():
     """
     try:
         # Load all PDFs
-        print("\n🚀 Initializing IRD Tax Assistant System...")
+        print("\nInitializing IRD Tax Assistant System...")
         documents = document_loader.load_all_pdfs()
         
         if not documents:
@@ -126,16 +126,16 @@ async def initialize_system():
             }
         
         # Split into chunks
-        print("✂️ Splitting documents into chunks...")
+        print("Splitting documents into chunks...")
         chunks = text_chunker.split_documents(documents)
         print(f"   Created {len(chunks)} chunks")
         
         # Create vector store
-        print("🗄️ Creating vector store...")
+        print("Creating vector store...")
         vector_db.create_vectorstore(chunks)
-        print("   ✅ Vector store created")
+        print("  Vector store created")
         
-        print("\n✅ System initialized successfully!\n")
+        print("\n System initialized successfully!\n")
         
         return {
             "status": "success",

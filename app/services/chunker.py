@@ -1,4 +1,4 @@
-"""Text chunking utilities for document processing."""
+
 from typing import List, Optional
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document
@@ -30,23 +30,20 @@ class TextChunker:
         """
         Split documents into chunks with logging.
         """
-        # 1. Safety Check: Handle empty input
         if not documents:
-            print("⚠️  Warning: No documents provided to chunker.")
+            print("Warning: No documents provided to chunker.")
             return []
 
-        print(f"✂️  Splitting {len(documents)} pages...")
+        print(f"Splitting {len(documents)} pages...")
         
-        # 2. Split
         try:
             chunks = self.text_splitter.split_documents(documents)
             
-            # 3. Logging: Critical for debugging ingestion
-            print(f"   ✅ Success: Created {len(chunks)} chunks from {len(documents)} pages.")
+            print(f"  Success: Created {len(chunks)} chunks from {len(documents)} pages.")
             return chunks
             
         except Exception as e:
-            print(f"   ❌ Error during chunking: {e}")
+            print(f"Error during chunking: {e}")
             return []
     
     def split_text(self, text: str) -> List[str]:

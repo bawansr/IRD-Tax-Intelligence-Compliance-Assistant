@@ -12,7 +12,7 @@ class MetadataExtractor:
 
     def _generate_citation_string(self, filename: str, page_num: int) -> str:
         """
-        Creates the standardized citation format required by the LLM.
+        Creates the standardized citation format required by the LLM
         Format: "Corporate_Income_Tax_Guide_2023.pdf - Page 5"
         """
         return f"{filename} - Page {page_num}"
@@ -28,24 +28,24 @@ class MetadataExtractor:
         Returns:
             A dictionary of enhanced metadata.
         """
-        # Start with existing metadata (usually just {'page': 0})
+        # Start with existing metadata
         meta = doc.metadata.copy()
         
-        # 1. Extract Filename
+        # Extract Filename
         filename = os.path.basename(file_path)
         
-        # 2. Human-Readable Page Numbers
+        
         # PyPDF starts at 0. Humans start at 1.
         raw_page = meta.get('page', 0)
         display_page = raw_page + 1
         
-        # 3. Add Core Fields
+        # Add Core Fields
         meta['source_document'] = filename
         meta['file_path'] = file_path
         meta['page_number'] = display_page
         
-        # 4. Add 'Citation' Field
-        # This is what we will feed into the LLM's context window later.
+        # Add 'Citation' Field
+        # This is what we will feed into the LLM's context window later
         meta['citation'] = self._generate_citation_string(filename, display_page)
         
         return meta

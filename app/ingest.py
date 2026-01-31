@@ -12,27 +12,27 @@ from app.services.vector_db import VectorDBService
 DATA_FOLDER = "data/raw"
 
 def main():
-    print("🚀 Starting ingestion process...")
+    print("Starting ingestion process...")
 
     # 1. Load PDFs using DocumentLoader
     document_loader = DocumentLoader(data_path=DATA_FOLDER)
     documents = document_loader.load_all_pdfs()
 
     if not documents:
-        print("❌ No documents found to ingest.")
+        print("No documents found to ingest.")
         return
 
     # 2. Split Text (Chunks)
-    print("✂️  Splitting documents...")
+    print("Splitting documents...")
     text_chunker = TextChunker()
     chunks = text_chunker.split_documents(documents)
-    print(f"   👉 Generated {len(chunks)} chunks.")
+    print(f" Generated {len(chunks)} chunks.")
 
     # 3. Save to Vector Database
     vector_db = VectorDBService() 
     vector_db.create_vectorstore(chunks, force_refresh=True)
 
-    print("✅ Ingestion complete! You can now run the server.")
+    print("Ingestion complete")
 
 if __name__ == "__main__":
     main()

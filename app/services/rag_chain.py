@@ -26,7 +26,7 @@ class RAGChain:
             api_key = settings.GROQ_API_KEY
             
         if not api_key:
-            raise ValueError("❌ Error: GROQ_API_KEY is missing. Check your .env file.")
+            raise ValueError("Error: GROQ_API_KEY is missing. Check your .env file.")
 
         # 2. Return Groq LLM
         return ChatGroq(
@@ -104,18 +104,18 @@ ANSWER (with citations):"""
         fallback_msg = "This information is not available in the provided IRD documents."
         # 1. Manually retrieve docs first so we can return them in the response
         docs = self.retriever.invoke(question)
-        print(f"🔍 Retrieved {len(docs)} documents for question: '{question}'")
+        print(f"Retrieved {len(docs)} documents for question: '{question}'")
         
         # 2. Filter low-confidence results to improve precision
         # Keep only chunks that are likely relevant (avoid noisy citations)
         docs = [doc for doc in docs if self._is_relevant(doc, question)]
-        print(f"✓ After filtering: {len(docs)} relevant documents")
+        print(f"After filtering: {len(docs)} relevant documents")
         
         # 3. Format context
         context_str = self._format_docs(docs)
         
         if not context_str.strip():
-            print("⚠️ No context found in retrieved documents")
+            print("No context found in retrieved documents")
             context_str = fallback_msg
         
         # 4. Generate Answer
@@ -130,7 +130,7 @@ ANSWER (with citations):"""
         
         # 5. Extract Clean Citations
         citations = self._extract_citations(docs)
-        print(f"📌 Extracted {len(citations)} citations")
+        print(f"Extracted {len(citations)} citations")
 
         # If the model returns the fallback message, do not show unrelated citations
         if fallback_msg in answer:

@@ -15,25 +15,25 @@ class TextPreprocessor:
         if not text:
             return ""
         
-        # --- CHANGE 1: Fix Hyphenated Words (CRITICAL FOR PDFs) ---
-        # Turns "Assess-\nment" into "Assessment"
+        #Fix Hyphenated Words
+       
         text = re.sub(r'(\w+)-\n(\w+)', r'\1\2', text)
 
-        # --- CHANGE 2: Fix "Soft" Line Breaks ---
+        # Fix Line Breaks 
         # PDFs often wrap sentences with a newline. We want to turn those into spaces,
         # but keep Double Newlines (\n\n) as paragraph breaks.
         
-        # 1. Replace paragraph breaks (\n\n) with a temporary placeholder
+        # Replace paragraph breaks (\n\n) with a temporary placeholder
         text = re.sub(r'\n\s*\n', '||PARAGRAPH||', text)
         
-        # 2. Replace single newlines with a space (joining the sentence)
+        # Replace single newlines with a space (joining the sentence)
         text = re.sub(r'\n', ' ', text)
         
-        # 3. Restore paragraph breaks
+        # Restore paragraph breaks
         text = text.replace('||PARAGRAPH||', '\n\n')
         
         # --- CHANGE 3: Standard Cleanup ---
-        # Remove extra whitespace (tabs, double spaces) but respect the newlines we just fixed
+        # Remove extra whitespace 
         text = re.sub(r'[ \t]+', ' ', text)
         
         return text.strip()
