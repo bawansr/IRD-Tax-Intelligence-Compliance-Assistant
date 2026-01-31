@@ -46,7 +46,7 @@ async def root():
 # 5. Server Execution
 # This block runs when you execute 'python app/main.py' directly
 if __name__ == "__main__":
-    print(f"🚀 Starting server at http://{settings.API_HOST}:{settings.API_PORT}")
+    print(f"Starting server at http://{settings.API_HOST}:{settings.API_PORT}")
     uvicorn.run(
         "app.main:app",
         host=settings.API_HOST,
