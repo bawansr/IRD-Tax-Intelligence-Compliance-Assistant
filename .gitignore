@@ -1,0 +1,30 @@
+# --- Python & Virtual Environment ---
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+.pytest_cache/
+
+# --- Security (CRITICAL) ---
+# Never commit your API keys!
+.env
+
+# --- Data & Storage ---
+# Don't commit the PDFs (they are too big)
+data/raw/*
+!data/raw/.gitkeep
+
+# Don't commit the Vector Database (it is large binary data)
+data/vector_store/
+
+# --- IDE Settings ---
+.vscode/
+.idea/
+
+# --- OS Files ---
+.DS_Store
+Thumbs.db
+
+# --- Logs ---
+*.log
